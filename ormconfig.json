@@ -1,15 +1,20 @@
 {
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
-    "password": "myjorge123@@",
-    "database": "example",
-    "entities": ["src/entities/**/*.ts"],
-    "migrations": ["src/migrations/**/*.ts"],
-    "cli": {
-      "entitiesDir": "src/entities",
-      "migrationsDir": "src/migrations"
-    }
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "myjorge123@@",
+  "database": "example",
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+    "src/entities/**/*.ts"
+  ],
+  "migrations": [
+    "src/migrations/**/*.ts"
+  ],
+  "cli": {
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migrations"
   }
-  
+}
