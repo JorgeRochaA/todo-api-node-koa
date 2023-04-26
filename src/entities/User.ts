@@ -1,43 +1,32 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+} from "typeorm";
 
 @Entity()
-export class User {
-    @PrimaryGeneratedColumn("uuid")
-    id: number;
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @Column()
-    firstName: string;
+  @Column()
+  firstName: string;
 
-    @Column()
-    lastName: string;
+  @Column()
+  lastName: string;
 
-    @Column({ unique: true })
-    email: string;
+  @Column({ unique: true })
+  email: string;
 
-    @Column()
-    password: string;
+  @Column()
+  password: string;
 
-    @Column({ default: () => "now()" })
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @Column({ default: () => "now()" })
-    updatedAt: Date;
-
-    constructor(
-        id: number,
-        firstName: string,
-        lastName: string,
-        email: string,
-        password: string,
-        createdAt:string,
-        updatedAt:string
-    ) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.createdAt = new Date(createdAt);
-        this.updatedAt = new Date(updatedAt);
-    }
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

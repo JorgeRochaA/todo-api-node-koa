@@ -1,31 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+} from "typeorm";
 
 @Entity()
-export class Todos {
-  constructor(id: number, title: string, completed: boolean, createdAt: Date, updatedAt: Date,priority_index:number) {
-    this.id = id;
-    this.title = title;
-    this.completed = completed;
-    this.createdAt = new Date(createdAt);
-    this.updatedAt = new Date(updatedAt);
-    this.priority_index = priority_index;
-  }
-
+export class Todos extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Column()
   title: string;
 
-    @Column({ default: false })
-    completed: boolean;
+  @Column({ default: false })
+  completed: boolean;
 
-    @Column({ default: () => "now()" })
-    createdAt: Date;
+  @Column()
+  priority_index: number;
 
-    @Column({ default: () => "now()" })
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @Column()
-    priority_index: number;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

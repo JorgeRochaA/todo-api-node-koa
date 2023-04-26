@@ -1,28 +1,36 @@
-import Koa from 'koa';
-import Router from 'koa-router';
-import bodyParser from 'koa-bodyparser';
-import { connectDatabase } from './connection';
+import Koa from "koa";
+import Router from "koa-router";
+import bodyParser from "koa-bodyparser";
+import { connectDatabase } from "./connection";
+import compose from "koa-compose";
+import fs from "fs";
+import path from "path";
 
 const app = new Koa();
-const router = new Router();
 
 app.use(bodyParser());
 
-router.get('/', (ctx) => {
-  ctx.body = 'Hello World!';
-});
+const routesDir = path.join(__dirname, "routes");
 
-app.use(router.routes());
+const routeFiles = fs.readdirSync(routesDir);
+
+const routers = routeFiles
+  .filter((file) => file.endsWith(".ts"))
+  .map((file) => require(path.join(routesDir, file)).default);
+
+app.use(compose(routers.map((router) => router.routes())));
 
 // Connect to the database
-connectDatabase().then(() => {
-  console.log('Connected to database');
-}).catch((err) => {
-  console.error('Failed to connect to database', err);
-});
+connectDatabase()
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((err) => {
+    console.error("Failed to connect to database", err);
+  });
 
 // ... add routes and middleware here ...
 
 app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+  console.log("Server is running on http://localhost:3000");
 });
