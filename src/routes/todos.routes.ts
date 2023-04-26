@@ -1,5 +1,11 @@
 import Router from "koa-router";
-import { createTodo, getTodos, getTodo } from "../controllers/todos.controller";
+import {
+  createTodo,
+  getTodos,
+  getTodo,
+  updateTodo,
+  deleteTodo,
+} from "../controllers/todos.controller";
 
 const router = new Router({
   prefix: "/todos",
@@ -8,5 +14,7 @@ const router = new Router({
 router.post("/create", createTodo);
 router.get("/get-all", getTodos);
 router.get("/get/:id", getTodo);
+router.put("/update/:id", updateTodo);
+router.delete("/delete/:id", deleteTodo);
 
 export default router;
