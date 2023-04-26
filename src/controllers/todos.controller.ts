@@ -19,7 +19,16 @@ export const createTodo = async (ctx: Context) => {
 };
 
 export const getTodos = async (ctx: Context) => {
-  const todos = await Todos.find();
+  let todos;
+
+  if (ctx.params.boolean) {
+    todos = await Todos.find({
+      where: { completed: ctx.params.boolean },
+    });
+  } else {
+    todos = await Todos.find();
+  }
+
   ctx.response.status = 200;
   ctx.body = { todos };
 };
@@ -42,7 +51,30 @@ export const getTodo = async (ctx: Context) => {
   }
 };
 
-export const updateTodo = async (ctx: Context) => {};
+export const updateTodo = async (ctx: Context) => {
+  try {
+    const todo = await Todos.findOne({ where: { id: ctx.params.id } });
+
+    if (!todo) {
+      ctx.status = 404;
+      ctx.body = { message: "Todo not found" };
+      return;
+    }
+
+    const lastIndex = (await Todos.count()) + 1;
+
+    todo.title = `Tarea Actualizada #${lastIndex}`;
+    todo.completed = true;
+
+    await todo.save();
+
+    ctx.response.status = 200;
+    ctx.body = { message: "Todo updated successfully" };
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = { message: "Error updating todo" };
+  }
+};
 
 export const deleteTodo = async (ctx: Context) => {
   try {
