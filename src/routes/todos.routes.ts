@@ -1,10 +1,12 @@
 import Router from "koa-router";
-import { createTodo } from "../controllers/todos.controller";
+import { createTodo, getTodos, getTodo } from "../controllers/todos.controller";
 
 const router = new Router({
   prefix: "/todos",
 });
 
-router.get("/", createTodo);
+router.post("/create", createTodo);
+router.get("/get-all", getTodos);
+router.get("/get/:id", getTodo);
 
 export default router;

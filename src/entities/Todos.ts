@@ -9,7 +9,7 @@ import {
 
 @Entity()
 export class Todos extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
