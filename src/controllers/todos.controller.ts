@@ -8,6 +8,7 @@ export const createTodo = async (ctx: Context) => {
     await Todos.create({
       title: `Tarea #${lastIndex}`,
       priority_index: lastIndex,
+      description: `(#${lastIndex})Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nunc aliquet nunc, vitae aliquam nisl`,
     }).save();
 
     ctx.response.status = 200;
@@ -61,10 +62,9 @@ export const updateTodo = async (ctx: Context) => {
       return;
     }
 
-    const lastIndex = (await Todos.count()) + 1;
-
-    todo.title = `Tarea Actualizada #${lastIndex}`;
+    todo.title = `Tarea Actualizada #${todo.id}`;
     todo.completed = true;
+    todo.description = `Descripcion Actualizada (#${todo.id})Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nunc aliquet nunc, vitae aliquam nisl`;
 
     await todo.save();
 
