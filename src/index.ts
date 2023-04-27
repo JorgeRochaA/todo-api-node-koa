@@ -5,8 +5,11 @@ import { connectDatabase } from "./connection";
 import compose from "koa-compose";
 import fs from "fs";
 import path from "path";
+import cors from "@koa/cors";
 
 const app = new Koa();
+
+app.use(cors());
 
 app.use(bodyParser());
 
