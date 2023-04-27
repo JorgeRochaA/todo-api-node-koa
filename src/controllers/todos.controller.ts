@@ -21,10 +21,9 @@ export const createTodo = async (ctx: Context) => {
 
 export const getTodos = async (ctx: Context) => {
   let todos;
-
-  if (ctx.params.boolean) {
+  if (castToBoolean(ctx.query.completed) !== undefined) {
     todos = await Todos.find({
-      where: { completed: ctx.params.boolean },
+      where: { completed: castToBoolean(ctx.query.completed) },
     });
   } else {
     todos = await Todos.find();
@@ -32,6 +31,16 @@ export const getTodos = async (ctx: Context) => {
 
   ctx.response.status = 200;
   ctx.body = { todos };
+};
+
+const castToBoolean = (query: any) => {
+  if (query === "true") {
+    return true;
+  } else if (query === "false") {
+    return false;
+  } else {
+    return undefined;
+  }
 };
 
 export const getTodo = async (ctx: Context) => {

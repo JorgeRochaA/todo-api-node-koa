@@ -12,7 +12,7 @@ const router = new Router({
 });
 
 router.post("/create", createTodo);
-router.get("/get-all/:boolean?", getTodos);
+router.get("/get-all", getTodos);
 router.get("/get/:id", getTodo);
 router.put("/update/:id", updateTodo);
 router.delete("/delete/:id", deleteTodo);
