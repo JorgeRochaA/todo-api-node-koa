@@ -5,14 +5,14 @@ export const createTodo = async (ctx: Context) => {
   //const { title, priority_index } = ctx.request.body;
   try {
     const lastIndex = (await Todos.count()) + 1;
-    await Todos.create({
+    let todo = await Todos.create({
       title: `Tarea #${lastIndex}`,
       priority_index: lastIndex,
       description: `(#${lastIndex})Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nunc aliquet nunc, vitae aliquam nisl`,
     }).save();
 
     ctx.response.status = 200;
-    ctx.body = { message: "Todo created successfully" };
+    ctx.body = { message: "Todo created successfully", todo };
   } catch (error) {
     ctx.status = 500;
     ctx.body = { message: "Error creating todo" };
@@ -95,10 +95,12 @@ export const deleteTodo = async (ctx: Context) => {
       return;
     }
 
+    const todoId = todo.id;
+
     await todo.remove();
 
     ctx.response.status = 200;
-    ctx.body = { message: "Todo deleted successfully" };
+    ctx.body = { message: "Todo deleted successfully", id: todoId };
   } catch (error) {
     ctx.status = 500;
     ctx.body = { message: "Error deleting todo" };
