@@ -71,6 +71,12 @@ export const updateTodo = async (ctx: Context) => {
       return;
     }
 
+    if (todo.completed) {
+      ctx.status = 400;
+      ctx.body = { message: "Todo already completed" };
+      return;
+    }
+
     todo.title = `Tarea Actualizada #${todo.id}`;
     todo.completed = true;
     todo.description = `Descripcion Actualizada (#${todo.id})Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nunc aliquet nunc, vitae aliquam nisl`;
